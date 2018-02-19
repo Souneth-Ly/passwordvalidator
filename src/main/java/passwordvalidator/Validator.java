@@ -35,7 +35,7 @@ public class Validator {
     public boolean isValidsequence(char symbol, String password){
         for(int i = 0; i < password.length(); i++){
             char pass = password.charAt(i);
-            if(i > 1 && password.su)
+            if(i > 1 && password.subSequence())
         }
 
         return false;
