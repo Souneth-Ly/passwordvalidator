@@ -52,8 +52,24 @@ public class Validator {
         if(index > 0 && password.charAt(index - 1) == password.charAt(index) ) {
             return false;
         }
-
+        //consecutive pair
         if(index > 2 && password.subSequence(index-1, index+1).equals(password.subSequence(index-3, index-1))) {
+            return false;
+        }
+        //3 consecutive
+        if(index > 4 && password.subSequence(index-2, index+1).equals(password.subSequence(index-5, index-1))){
+            return false;
+        }
+        //4 consecutive
+        if(index > 6 && password.subSequence(index-3, index+1).equals(password.subSequence(index-7, index-3))){
+            return false;
+        }
+        //5 consecutive
+        if(index > 8 && password.subSequence(index-4, index+1).equals(password.subSequence(index-9, index-4))){
+            return false;
+        }
+        //6 consecutive
+        if(index > 10 && password.subSequence(index-5, index+1).equals(password.subSequence(index-11, index-5))){
             return false;
         }
 
