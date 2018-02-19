@@ -1,14 +1,10 @@
 package passwordvalidator;
 
 public class Validator {
-    private boolean foundAlphabet;
-    private boolean foundDigit;
+    private boolean foundAlphabet = false;
+    private boolean foundDigit = false;
 
     public boolean isPasswordValid (String password) {
-        // initialize logic for alphabet and digit finding
-        foundAlphabet = false;
-        foundDigit = false;
-
         // Rule #1: Must be non-null, between 5 and 12 characters in length.
        if ( !isLengthValid(password) ) {
            return false;
