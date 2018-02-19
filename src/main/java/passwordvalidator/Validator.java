@@ -1,20 +1,33 @@
 package passwordvalidator;
 
 public class Validator {
-    public boolean isPasswordValid (String password) {
-        // Rule #1: Must be non-null, between 5 and 12 characters in length.
-        boolean isValid = isLengthValid(password);
+    private boolean foundAlphabet;
+    private boolean foundDigit;
 
-        // Rule #2:
+    public boolean isPasswordValid (String password) {
+        // initialize logic for alphabet and digit finding
+        foundAlphabet = false;
+        foundDigit = false;
+
+        // Rule #1: Must be non-null, between 5 and 12 characters in length.
+       if ( !isLengthValid(password) ) {
+           return false;
+       }
+
         for (int i = 0; i < password.length(); i++) {
             char symbol = password.charAt(i);
-            isValid = isAlphabetAndLowerCase(symbol) && isDigit(symbol) && isValidsequence(password, i);
-            if (!isValid) {
-                break;
+            // Rule #2: Must consist of a mixture of lowercase letters and numerical digits only, with at least one of each.
+            if (!(isAlphabetAndLowerCase(symbol) || isDigit(symbol))) {
+                return false;
+            }
+            // Rule #3:  Must not contain any sequence of characters immediately followed by the same sequence.
+            if (!isValidsequence(password, i)) {
+                return false;
             }
         }
 
-        return isValid;
+        // check if both alphabet and digit were found
+        return foundAlphabet && foundDigit;
     }
 
     private boolean isLengthValid(String password) {
@@ -23,14 +36,18 @@ public class Validator {
 
     private boolean isAlphabetAndLowerCase(char symbol) {
         if(Character.isLetter(symbol) && Character.isLowerCase(symbol)) {
-            return true;
+            // an alphabet was found
+            foundAlphabet = true;
+            return foundAlphabet;
         }
         return false;
     }
 
     private boolean isDigit(char symbol){
-        if(Character.isDigit(symbol)){
-            return true;
+        if(Character.isDigit(symbol)) {
+            // a digit was found
+            foundDigit = true;
+            return foundDigit;
         }
         return false;
     }
