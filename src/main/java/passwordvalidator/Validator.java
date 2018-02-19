@@ -1,43 +1,49 @@
 package passwordvalidator;
 
 public class Validator {
-    //private Pattern Alphabets = Pattern.compile("[a-z]");
-
     public boolean isPasswordValid (String password) {
-        if (password == null || password.length() < 5 || password.length() > 12) {
-            return false;
-        }
+        // Rule #1: Must be non-null, between 5 and 12 characters in length.
+        boolean isValid = isLengthValid(password);
 
+        // Rule #2:
         for (int i = 0; i < password.length(); i++) {
-            char sysmbol = password.charAt(i);
-            isAlphabetAndLowerCase(sysmbol);
-            isDigit(sysmbol);
-            isValidsequence(sysmbol, password);
+            char symbol = password.charAt(i);
+            isValid = isAlphabetAndLowerCase(symbol) && isDigit(symbol) && isValidsequence(password, i);
+            if (!isValid) {
+                break;
+            }
         }
 
-        return false;
+        return isValid;
     }
 
-    public boolean isAlphabetAndLowerCase(char symbol) {
+    private boolean isLengthValid(String password) {
+        return !(password == null || password.length() < 5 || password.length() > 12);
+    }
+
+    private boolean isAlphabetAndLowerCase(char symbol) {
         if(Character.isLetter(symbol) && Character.isLowerCase(symbol)) {
-            return false;
+            return true;
         }
         return false;
     }
 
-    public boolean isDigit(char symbol){
+    private boolean isDigit(char symbol){
         if(Character.isDigit(symbol)){
-            return false;
+            return true;
         }
         return false;
     }
 
-    public boolean isValidsequence(char symbol, String password){
-        for(int i = 0; i < password.length(); i++){
-            char pass = password.charAt(i);
-            if(i > 1 && password.subSequence())
+    private boolean isValidsequence(String password, int index) {
+        if(index > 0 && password.charAt(index - 1) == password.charAt(index) ) {
+            return false;
         }
 
-        return false;
+        if(index > 2 && password.subSequence(index-1, index+1).equals(password.subSequence(index-3, index-1))) {
+            return false;
+        }
+
+        return true;
     }
 }
